@@ -48,14 +48,17 @@
 					</ul>
 				</div>
 			</div>
-			<div class="notearea">
-				<textarea></textarea>
+			<div class="txt">
+				<div class="notearea">
+					<textarea class="txta"></textarea>
+				</div>
+				<div class="buttons">
+					<button type="button" class="btn1 iconfont icon-baocun"></button>
+					<button type="button" class="btn2 iconfont icon-qingkong"></button>
+					<button type="button" class="btn3 iconfont icon-shanchu"></button>
+				</div>
 			</div>
-			<div class="buttons">
-				<button type="button" class="btn1 iconfont icon-baocun"></button>
-				<button type="button" class="btn2 iconfont icon-qingkong"></button>
-				<button type="button" class="btn3 iconfont icon-shanchu"></button>
-			</div>
+			
 		</div>
 	</body>
 	<script src="js/jquery-1.11.0.js" type="text/javascript" charset="utf-8"></script>
@@ -233,7 +236,9 @@
 					if(getmsg!=null){
 						$(".notearea>textarea").val(getmsg);
 					}else{
-						$(".notearea>textarea").val("今天没有内容");
+						$(".notearea>textarea").val("");
+						
+						$(".notearea>textarea").attr("placeholder","今天没有内容");
 					}
 					
 //					console.log(dateidx,days);
@@ -243,6 +248,11 @@
 //					$(this).parent().stop().slideToggle();
 				})	
 			}	
+				for (var i = 0; i <42-d.getDate()-wek; i++) {
+					var $li=$("<li></li>");
+					$(".days").append($li);
+				}
+				
 				console.log($(".days>li").length);
 				drr=[0,6,7,13,14,20,21,27,28,34,35];
 				for (var i = 0; i < drr.length; i++) {
@@ -328,6 +338,7 @@
 				$(".months>p").text(months);
 				createDate(years,months);
 			})
+			
 	})
 	</script>
 </html>
