@@ -1,0 +1,37 @@
+{
+  "id": "",
+  "name": "",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "468401",
+      "name": "上一页",
+      "font_class": "iconfontzuo",
+      "unicode": "e618",
+      "unicode_decimal": 58904
+    },
+    {
+      "icon_id": "1817728",
+      "name": "清空",
+      "font_class": "qingkong",
+      "unicode": "e619",
+      "unicode_decimal": 58905
+    },
+    {
+      "icon_id": "10292039",
+      "name": "删 除",
+      "font_class": "shanchu",
+      "unicode": "e614",
+      "unicode_decimal": 58900
+    },
+    {
+      "icon_id": "13546344",
+      "name": "保存",
+      "font_class": "baocun",
+      "unicode": "e601",
+      "unicode_decimal": 58881
+    }
+  ]
+}

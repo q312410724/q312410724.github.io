@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="css/main.css"/>
+		<link rel="stylesheet" type="text/css" href="fonts/iconfont.css"/>
+	</head>
+	<body>
+		<div class="container">
+			<div class="date_select">
+				<ul class="birthday_show">
+					<li class="years">
+						<p>年</p>
+						<ul class="birth_list">
+							
+						</ul>
+					</li>
+					<button type="button" class="prey iconfont icon-iconfontzuo"></button>
+					<li class="months">
+						<p>月</p>
+						<ul class="birth_list">
+							
+						</ul>
+					</li>
+					<button type="button" class="next iconfont icon-iconfontzuo btnfanxiang"></button>
+					<!--<li class="days">
+						<p>日</p>
+						<ul class="birth_list">
+							
+						</ul>
+					</li>-->
+				</ul>
+			</div>
+			<div class="date_show">
+				<ul class="week">
+					<li>周日</li>
+					<li>周一</li>
+					<li>周二</li>
+					<li>周三</li>
+					<li>周四</li>
+					<li>周五</li>
+					<li>周六</li>
+				</ul>
+				<div class="date_days">
+					<ul class="days">
+						<li></li>
+					</ul>
+				</div>
+			</div>
+			<div class="notearea">
+				<textarea></textarea>
+			</div>
+			<div class="buttons">
+				<button type="button" class="btn1 iconfont icon-baocun"></button>
+				<button type="button" class="btn2 iconfont icon-qingkong"></button>
+				<button type="button" class="btn3 iconfont icon-shanchu"></button>
+			</div>
+		</div>
+	</body>
+	<script src="js/jquery-1.11.0.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/iconfont.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		$(function(){
+			var arr=[];
+			
+//			console.log(localStorage.length);
+			years="";
+			months="";
+			days=0;
+
+			
+			var dateidx;
+			todayDate();
+			function todayDate(){
+				var d = new Date
+				var d_y = d.getFullYear();//获取当前年
+			    var d_m = d.getMonth() + 1; //获取当前月
+			    var d_d = d.getDate();
+			    dateidx=d_d;
+			    
+//				console.log(d_y,d_m,d_d);
+				createDate(d_y,d_m);
+//				console.log(d_d);
+//				localStorage.today=d_d;
+				years=d_y;
+				months=d_m;
+				$(".years>p").text(d_y);
+				$(".months>p").text(d_m);
+				
+//				$(".days>li[data-id=d_d]").addClass("active");
+//				checkls(years,months);
+			};
+			
+			/*setTimeout(function(){
+				checkls("2020","07");
+			},2000)*/
+			var t;
+			function checkls(y,m){
+//						$(".days>li").removeClass("active1");
+//					setTimeout(function(){ 定时器开头
+//						console.log(m);
+						m=m.toString();
+						if (m.length == 1) {
+                   	 	m= "0" + m;
+               		}
+//						console.log(y,m);
+					for (var i = 0; i < localStorage.length; i++) {
+//						console.log("证明走了循环")
+//						let t;
+						
+//						console.log(localStorage.key(i));
+						ta=localStorage.key(i).slice(1,5);
+						tb=localStorage.key(i).slice(5,7);
+//						console.log("传入年份"+y+"传入国"+ta+"传入月份"+m+"传入国"+tb);
+						
+						if(y==ta&&m==tb){
+							t=localStorage.key(i).slice(7,9);
+							console.log(t);
+//							console.log($(".days>li[data-id="+t+"]"));
+							if (t.charAt(0)==0) {
+								t=t.charAt(1);
+							}
+							let d1=new Date;
+							today1=d1.getDate();
+							if (t==today1) {
+								console.log("嘻嘻");
+								$(".days>li[data-id="+dateidx+"]").addClass("active2");
+							}
+//							$(".days>li[data-id="+dateidx+"]").addClass("active2");
+							$(".days>li[data-id="+t+"]").addClass("active1");
+						}
+					
+//					console.log(ta,tb);
+					
+//					t=localStorage.key(i).slice(6,8);
+					
+	//				console.log(typeof(t));
+					
+	//				$(".days>li[data-id ="+dateidx+"]")
+				}
+//					},100) 定时器封口
+			}
+			
+			$(".birthday_show>li>p").click(function(){
+			$(this).next().stop().slideToggle();
+			});
+			
+			for (var i = 1990; i < 2100; i++) {
+				var $li=$("<li></li>");
+				$li.text(i).attr("data-id",i);
+				$(".years>ul").append($li);
+				$li.click(function(){
+					var txt=$(this).text();
+					years=$(this).attr("data-id");
+					years=years.toString();
+//					console.log(years);
+					$(this).parent().prev().empty().text(txt);
+					$(this).parent().stop().slideToggle();
+//					$(".days>ul").empty();
+//					if (months!="") {
+						createDate(years,months);
+//						checkls(years,months);
+						
+//					}
+					
+				})
+			}
+			for (var i = 1; i < 13; i++) {
+				var $li=$("<li></li>");
+				$li.text(i).attr("data-id",i);
+				$(".months>ul").append($li);
+				$li.click(function(){
+					var txt=$(this).text();
+					months=$(this).attr("data-id");
+					months=months.toString();
+					if (months.length == 1) {
+                   	 	months = "0" + months;
+               		}
+//					console.log(months);
+					$(this).parent().prev().empty().text(txt);
+					$(this).parent().stop().slideToggle();
+//					$(".days>ul").empty();
+					
+//					if (years!="") {
+						createDate(years,months);
+//						createDate($(".years>p").text(),$(".months>p").text());
+//						checkls(years,months);
+//						stars();
+//					}
+				})
+			}
+//			createDate(2020,7);
+//			var date_id;
+			$(".days>li[data-id ="+dateidx+"]").addClass("active").siblings().removeClass("active");
+			
+//			console.log(Date(2020,7,20));
+			function createDate(y,m){
+				
+				$(".days").empty();
+				var d= new Date(y,m,0);
+				var dd= new Date(y,m-1,1);
+				var wek=dd.getDay();
+				for (var i = 0; i < wek; i++) {
+					var $li=$("<li></li>");
+					$(".days").append($li);
+				}
+				for (var i = 1; i < d.getDate()+1; i++) {
+				var $li=$("<li></li>");
+				$li.text(i).attr("data-id",i);
+				$(".days").append($li);
+				$li.click(function(){
+					var txt=$(this).text();
+					days=$(this).attr("data-id");
+					$(this).addClass("active").siblings().removeClass("active");
+//					daykey=days;
+					
+					years=years.toString();
+					months=months.toString();
+					if (months.length == 1) {
+                   	 	months = "0" + months;
+                	}
+					if (days.length == 1) {
+						days ="0" + days;
+					}
+//					console.log(years);
+//					console.log(months);
+//					console.log(days);
+//					console.log(years+months+days);
+					
+					getmsg=localStorage.getItem("a"+years+months+days);
+//					console.log(getmsg);
+					if(getmsg!=null){
+						$(".notearea>textarea").val(getmsg);
+					}else{
+						$(".notearea>textarea").val("今天没有内容");
+					}
+					
+//					console.log(dateidx,days);
+					
+					checkls(years,months);
+//					$(this).parent().prev().empty().text(txt);
+//					$(this).parent().stop().slideToggle();
+				})	
+			}	
+				console.log($(".days>li").length);
+				drr=[0,6,7,13,14,20,21,27,28,34,35];
+				for (var i = 0; i < drr.length; i++) {
+					$(".days>li").eq(drr[i]).addClass("active3");
+				}
+//				console.log(dateidx);
+//				console.log(typeof(dateidx));
+//				console.log("出发了吗");
+//				console.log(dateidx);
+//				console.log(m);
+				if (dateidx==m) {
+						$(".days>li[data-id="+dateidx+"]").addClass("active2");
+					}else{
+						$(".days>li[data-id="+dateidx+"]").removeClass("active2");
+					}
+//				setTimeout(function(){
+					checkls(y,m);
+					
+					
+//				},100)
+		}	
+			
+			
+			$(".btn1").click(function(){
+				msgkey=$(".notearea>textarea").val();
+				console.log(months);
+				if (months.length<2) {
+					months="0"+months;
+//					months=months.toString();
+				}
+				months=months.toString();
+				if (days.length<2) {
+					days="0"+days;
+				}
+				
+				localStorage.setItem("a"+years+months+days,msgkey);
+				alert("保存成功");
+			})
+			$(".btn2").click(function(){
+				$(".notearea>textarea").val("");
+//				if (months.length<2) {
+//					months="0"+months;
+////					months=months.toString();
+//				}
+//				months=months.toString();
+//				if (days.length<2) {
+//					days="0"+days;
+//				}
+//				localStorage.setItem("a"+years+months+days,"");
+			})
+			$(".btn3").click(function(){
+				$(".notearea>textarea").val("");
+				localStorage.removeItem("a"+years+months+days);
+				if (months.charAt(0)==0) {
+					months=months.charAt(1);
+				}
+				
+				console.log(years,months);
+				checkls(years,months);
+				alert("删除成功");
+				
+			})
+			$(".prey").click(function(){
+				if (months==1) {
+					months=12;
+					years--;
+				}else{
+					months--;
+				}
+				$(".years>p").text(years);
+				$(".months>p").text(months);
+				createDate(years,months);
+				
+			})
+			$(".next").click(function(){
+				if (months==12) {
+					months=1;
+					years++;
+				} else{
+					months++;
+				}
+				$(".years>p").text(years);
+				$(".months>p").text(months);
+				createDate(years,months);
+			})
+	})
+	</script>
+</html>
