@@ -1,0 +1,187 @@
+*{
+	padding: 0;
+	margin: 0;
+}
+.container{
+	width: 600px;
+	height: 500px;
+	background: aqua;
+	margin: 0 auto;
+}
+.writein>div{
+	display: inline-block;
+}
+.showarea{
+	width: 600px;
+	height: 480px;
+	/*background: beige;*/
+}
+.canvas{
+	width: 600px;
+	height: 230px;
+	/*background: red;*/
+}
+.today{
+	width: 100%;
+	height: 30px;
+	/*background: red;*/
+}
+.today>p{
+	width: auto;
+	font-size: 18px;
+	float: left;
+}
+.weathers{
+	width: 600px;
+	height: 250px;
+	/*background: yellow;*/
+}
+.wtoday{
+	width: 200px;
+	height: 250px;
+	float: left;
+	/*background: #277EAB;*/
+}
+.wtpic{
+	width: 70px;
+	height: 60px;
+	/*background: palegreen;*/
+	margin:20px auto 0 auto;
+}
+.wttemp{
+	width: 150px;
+	height: 70px;
+	/*background: pink;*/
+	margin: 0  auto 0 40px;
+}
+.wttt{
+	width: 70px;
+	height: 70px;
+	/*background: yellow;*/
+	float: left;
+	font-size: 50px;
+}
+.wttw{
+	float: left;
+	width: 70px;
+	height: 70px;
+	/*background: #EEEEEE;*/
+}
+.wttw>span{
+	display: block;
+	width: 70px;
+	height: 30px;
+	line-height: 30px;
+}
+.wttwspan{
+	font-size: 30px;
+}
+.wtwind{
+	width: 150px;
+	height: 30px;
+	/*background: #E43C59;*/
+	margin: 20px auto 0 auto;
+	font-size: 20px;
+	
+}
+.wtwface{
+	float: left;
+	/*font-size: 20px;*/
+}
+.wtwlevel{
+	float: left;
+	/*font-size: 20px;*/
+	
+}
+.wtafter{
+	float: left;
+	width: 400px;
+	height: 250px;
+	/*background: deepskyblue;*/
+}
+
+.wtafter>div{
+	float: left;
+	width: 33.33%;
+	height: 250px;
+}
+.wtafd{
+	text-align: center;
+	width: 100px;
+	height: 30px;
+	/*background: red;*/
+	margin: 20px auto;
+}
+.wtaftemp{
+	text-align: center;
+	float: left;
+	width: auto;
+	height: 20px;
+	/*background: #337AB7;*/
+	margin: 0 auto;
+	/*padding-left: 20px;*/
+}
+.wtafsta{
+	float: left;
+	text-align: center;
+	width: auto;
+	height: 20px;
+	/*background: darkblue;*/
+	margin: 0 auto;
+}
+.wtwface{
+	padding-left: 20px;
+	/*background: tomato;*/
+	float: left;
+}
+.wtwlevel{
+	/*background: brown;*/
+	float: left;
+}
+.wtafwind{
+	width: 125px;
+	height: 20px;
+	margin: 0 auto;
+	display: flex;
+  	align-items: center;
+}
+.wtafday{
+	width: 125px;
+	height: 50px;
+	margin: 0 auto;
+	/*background: yellow;*/
+}
+.wtafnight{
+	width: 125px;
+	height: 50px;
+	margin: 0 auto;
+	/*background: yellowgreen;*/
+}
+.wtafstas{
+	display: flex;
+  	align-items: center;
+	width: 125px;
+	height: 25px;
+	text-align: center;
+}
+.wtafstas>p{
+	float: left;
+	font-size: 14px;
+}
+.wtwind>p{
+	width: auto;
+	float: left;
+}
+.wtpic>img{
+	width: 70px;
+	height: 50px;
+}
+.wtaf1{
+	border-left:1px solid #277EAB ;
+	
+	border-right:1px solid #277EAB ;
+}
+.wtaf2{
+	border-right:1px solid #277EAB ;
+	
+}

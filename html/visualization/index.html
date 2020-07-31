@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="css/main.css"/>
+	</head>
+	<body>
+		<div class="container">
+			<div class="area1">
+				<canvas id="barChart" width="800" height="500" style="border:1px solid #333"></canvas>
+			</div>
+		</div>
+	</body>
+	<script src="js/jquery-1.11.0.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		$(function(){
+			var c=document.getElementById("barChart");
+		// 创建content对象,getContent("2d")内建HTML5对象,拥有绘制路径/图形等方法
+			var linex=c.getContext("2d");
+			//填充颜色
+			linex.moveTo(85,50);
+			linex.lineTo(100,33);
+			linex.lineTo(115,50);
+			linex.lineTo(100,33);
+			
+			linex.lineTo(100,110);
+			linex.lineTo(110,110);
+			linex.lineTo(100,110);
+			
+			linex.lineTo(100,175);
+			linex.lineTo(110,175);
+			linex.lineTo(100,175);
+			
+			linex.lineTo(100,250);
+			linex.lineTo(110,250);
+			linex.lineTo(100,250);
+			
+			linex.lineTo(100,325);
+			linex.lineTo(110,325);
+			linex.lineTo(100,325);
+			
+			linex.lineTo(100,400);
+			
+			linex.lineTo(200,400);
+			linex.lineTo(200,390);
+			linex.lineTo(200,400);
+			
+			linex.lineTo(300,400);
+			linex.lineTo(300,390);
+			linex.lineTo(300,400);
+			
+			linex.lineTo(400,400);
+			linex.lineTo(400,390);
+			linex.lineTo(400,400);
+			
+			linex.lineTo(500,400);
+			linex.lineTo(500,390);
+			linex.lineTo(500,400);
+			
+			linex.lineTo(600,400);
+			linex.lineTo(600,390);
+			linex.lineTo(600,400);
+			
+			linex.lineTo(700,400);
+			linex.lineTo(700,390);
+			linex.lineTo(700,400);
+	
+			linex.lineTo(750,400);
+			linex.lineTo(733,413);
+			linex.lineTo(750,400);
+			linex.lineTo(733,388);
+			
+			
+			
+			var f=c.getContext("2d");
+			f.font="30px '楷体'";
+			f.fillText("京东小店上半年收益",200,50);
+			f.font="12px '楷体'";
+			f.fillText("(收益)",30,50);
+			
+			var f=c.getContext("2d");
+			f.font="12px '楷体'";
+			f.fillText("(月份)",750,450);
+			
+			f.fillText("400",70,115);
+			f.fillText("300",70,180);
+			f.fillText("200",70,255);
+			f.fillText("100",70,330);
+			f.fillText("0",80,420);
+			f.fillText("1",197,420);
+			f.fillText("2",297,420);
+			f.fillText("3",397,420);
+			f.fillText("4",497,420);
+			f.fillText("5",597,420);
+			f.fillText("6",697,420);
+			
+			var line=c.getContext("2d");
+			var block=c.getContext("2d");
+			var arr=[0.5,1.2,2.7,3.2,3.9,3.7];
+			for (var i = 0; i < arr.length; i++) {
+				if (i==0) {
+					line.fillStyle="#ff00ff"
+					line.moveTo(200,400-(75*arr[i]));
+				}
+				line.lineTo(200+100*i,400-(75*arr[i]));
+				line.stroke();
+				line.font="12px '楷体'";
+				line.fillText("("+arr[i]+")",190+100*i,375-(75*arr[i]));
+				line.fillStyle="#ff00ff"
+				line.fillRect(190+100*i,(400-arr[i]*75),20,arr[i]*75);
+			}
+			
+			
+			linex.stroke();
+			})
+		
+		//矩形块当前起点(0,0);宽150px,高75px
+//		czs.fillRect(0,0,150,75);
+	</script>
+</html>

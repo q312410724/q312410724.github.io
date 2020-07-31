@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="css/main1.css" />
+	</head>
+
+	<body>
+		<div class="container">
+			<div class="writein">
+				<div>
+					<p>x轴角标</p>
+					<input type="text" class="xmaker" />
+				</div>
+				<div>
+					<p>y轴角标</p>
+					<input type="text" class="ymaker" />
+				</div>
+				<div>
+					<p>标题</p>
+					<input type="text" class="title" />
+				</div>
+				<div>
+					<p>y轴高度</p>
+					<input type="text" class="ylong" />
+				</div>
+				<div>
+					<p>y轴步径</p>
+					<input type="text" class="yfootlong" />
+				</div>
+
+				<p>插入数据</p>
+				<input type="text" class="items" />
+				<button type="button" class="add">增加品类</button>
+				<button type="button" class="start">开始生成</button>
+
+			</div>
+			<ul class="list"></ul>
+			<div class="area1">
+				<canvas id="barChart" width="600" height="400" style="border:1px solid #333"></canvas>
+			</div>
+		</div>
+	</body>
+	<script src="js/jquery-1.11.0.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		$(function() {
+			arr = [];
+			drr = [];
+			var iptxmaker;
+			var iptymaker;
+			var ipttitle;
+			var intylong;
+			var intyfootlong;
+			var intfoots;
+			var z=1;
+			//点击增加生成游离标签插入到ul中 并将内容存入arr中
+			$(".add").click(function() {
+				$li = $("<li></li>");
+				var e=$(".items").val().trim().indexOf(" ");
+//				var law=/([+-,]|\s*)]/g;
+//				var d=$(".items").val().trim().replace(law," ")
+				var d=$(".items").val().trim();
+//				console.log(d);
+				if (e!=-1) {
+					p=d.split(" ");
+					$li.text(p[0]+":"+p[p.length-1]);
+					$(".list").append($li);
+					drr.push(p[0]);
+					arr.push(Number(p[p.length-1]));
+					$(".items").select();
+//					console.log(p);
+				}else if(e==-1){
+					$li.text($(".items").val().trim());
+					$(".list").append($li);
+					arr.push(Number(d));
+					drr.push(z);
+				}
+				z++;
+				console.log(z);
+				console.log(arr);
+				console.log(drr);
+			})
+			
+			$(".start").click(function() {
+				iptxmaker = $(".xmaker").val();
+				iptymaker = $(".ymaker").val();
+				ipttitle = $(".title").val();
+				intylong = $(".ylong").val();
+				intyfootlong = $(".yfootlong").val();
+				intfoots = Math.ceil(intylong / intyfootlong);
+				if(arr.length < 2) {
+					alert("最少两个品类");
+				} else {
+					draw();
+				}
+//				console.log(intfoots);
+			})
+
+			function draw() {
+				//画布基本方法
+				var c = document.getElementById("barChart");
+				var line = c.getContext("2d");
+				c.height = c.height;
+				//左上方箭头
+				line.moveTo(60, 50);
+				line.lineTo(70, 33);
+				line.lineTo(80, 50);
+				//右下角箭头
+				line.moveTo(573, 350);
+				line.lineTo(580, 360);
+				line.lineTo(573, 370);
+				//坐标轴
+				line.moveTo(70, 33);
+				line.lineTo(70, 360);
+				line.lineTo(580, 360);
+				//y轴最大值
+				line.moveTo(70, 90);
+				line.lineTo(77, 90);
+				line.fillText($(".ylong").val(), 35, 95);
+				//x轴最大值
+				//line.moveTo(500,353);
+				//line.lineTo(500,360);
+				//生成y轴刻度
+				for(var i = 1; i < intfoots; i++) {
+					line.moveTo(70, (270 / intfoots) * i + 90);
+					line.lineTo(77, (270 / intfoots) * i + 90);
+					//line.fillText($(".ylong").val()-(intyfootlong*i),38,(270/intfoots)*i+95);
+					line.fillText(intyfootlong * i, 38, (270 / intfoots) * (intfoots - i) + 95);
+				}
+				//for (var i = 1; i < intfoots; i++) {
+				//	line.fillText(intyfootlong*i,38,(270/intfoots)*(intfoots-i)+95);
+				//	}
+				
+				//生成x轴刻度
+				//xx偏移值
+				var xx;
+				var offset;
+				//不同道具数量适用不同间距 保证美观
+				for(var i = 1; i < arr.length + 1; i++) {
+					if(arr.length < 7) {
+						offset = 25;
+					} else {
+						offset = 75;
+					}
+					line.moveTo((450 / arr.length) * i + offset, 353);
+					if(i == 1) {
+						xx = (450 / arr.length) * i + offset;
+					}
+					if (drr.length==0) {
+						line.fillText(i, (450 / arr.length) * i + offset - 15, 375);
+					}else{
+						line.fillText(drr[i-1], (450 / arr.length) * i + offset - 10, 375);
+					}
+					line.lineTo((450 / arr.length) * i + offset, 360);
+				}
+				
+//				var timer = [];
+				var brr=[];
+				var crr=[];
+				
+				//arr=[0.5,1.2,2.7,3.2,3.9,3.7];
+				for(let i = 0; i < arr.length; i++) {
+					var c1=(450 / arr.length) * i + xx;
+					var c2=360 - 270 * arr[i] / intylong;
+					if(i == 0) {
+						//var floats=arr[i]/intylong;
+						//var y=327-327*floats;
+						// 生成折线原点
+						line.moveTo(xx, 360 - 270 * arr[i] / intylong);
+//						crr.push("{"+'"'+"x"+'"'+":"+c1+","+'"'+"y"+'"'+":"+c2+"}");
+					}
+						//生成折线位点并连接
+//					line.lineTo((450 / arr.length) * i + xx, 360 - 270 * arr[i] / intylong);
+					crr.push("{"+'"'+"x"+'"'+":"+c1+","+'"'+"y"+'"'+":"+c2+"}");
+					console.log(crr);
+					
+					var alh = arr.length;
+					var a2 = 360 - 270 * arr[i] / intylong;
+					var a3 = arr[i] / intylong * 270;
+					var a4 = 180 / alh;
+					//				line.strokeStyle="chartreuse"
+					line.font = "12px '楷体'";
+					line.fillText(arr[i], (450 / arr.length) * i + xx, 355 - 270 * arr[i] / intylong);
+					var grow = 0;
+					
+//					var k = 0;
+//					timer[i] = setInterval(function() {
+//						k++;
+//						grow = 0.1 * k;
+//						console.log(k);
+//						console.log(grow);
+//						console.log(((450 / arr.length) * i + offset + 2 * a4 + ";" + a2 * grow + ";" + ((180 / arr.length)) + ";" + (a2 * grow)));
+//
+//						if(k > 2) {
+//							console.log("清除");
+//							clearInterval(timer[i]);
+//						}
+//						line.fillStyle = "#ff00ff";
+//						line.fillRect((450 / arr.length) * i + offset + 2 * a4, a2 * grow, ((180 / arr.length)), 360 - a2 * grow);
+//					}, 100)
+					line.fillStyle = "#ff00ff"
+					line.fillRect((450/arr.length)*i+offset+2*a4,a2,((180/arr.length)),(arr[i]/intylong*270));
+					let x1=(450/arr.length)*i+offset+2*a4;
+					let w1=(arr[i]/intylong*270);
+					//通过循环产生四个点位存入brr
+//					brr.push("{"+'"'+i+'"'+":"+'"'+x1+","+a2+","+ ((180/arr.length))+","+(arr[i]/intylong*270)+'"'+"}");
+					brr.push("{"+'"'+"x"+'"'+":"+x1+","+'"'+"y"+'"'+":"+a2+","+'"'+"w"+'"'+":"+(180/arr.length)+","+'"'+"h"+'"'+":"+w1+"}")
+//					console.log(brr[i]);
+					
+				}
+//					console.log(brr[0]);
+//					let j=JSON.parse(brr[0]);
+//					console.log(j);
+				//定时器绘制柱状图动态效果
+				var up=0;
+				ttimer=setInterval(function(){
+//					up+=0.01;
+					up++;
+					for (var i = 0; i < brr.length; i++) {
+						let j=JSON.parse(brr[i]);
+//						let p=j.y*up/100;
+						var q=j.h*up/100;
+//						console.log(q);
+//						console.log(j.y*up);
+						line.fillStyle = "red";
+						line.fillRect(j.x,360-q,j.w,q);
+					}
+					if (up==100) {
+						up=99;
+						clearInterval(ttimer);
+					}
+				},20)
+				var krr=[];
+				var yrr=[];
+				var xrr=[];
+//				crr = crr.join(",");
+//				console.log(crr);
+				crrobj = JSON.parse("["+crr+"]");
+				console.log(crrobj.length);
+				//生成k斜率 y步径 x坐标
+				for (var i = 0; i < crrobj.length; i++) {
+					if (i<crrobj.length-1) {
+						console.log(crrobj[i],crrobj[i+1]);	
+						k=(crrobj[i+1].y-crrobj[i].y)/(crrobj[i+1].x-crrobj[i].x)*-1;
+						console.log(k);
+						krr.push(k);
+						yrr.push(crrobj[i+1].y-crrobj[i].y);
+						xrr.push(crrobj[i].x);
+					}
+				}
+						//自动调用一次传入参数0的函数
+						drawline(0);
+//					
+					function drawline(r){
+						var uup=0;
+						var offsetTime=20/(crrobj.length-1);
+						console.log(offsetTime+'xxixi');
+	//					r=u;
+//						r=0;
+						 //x轴步径是固定的
+						var ofstx=crrobj[1].x-crrobj[0].x;
+						
+						//y轴步径是变化的
+						var ofsty=yrr[r];
+						
+//						console.log(ofstx);
+//						console.log(ofsty);
+						timmer=setInterval(function(){
+							uup++;
+							let cx=ofstx*uup/100;
+							let cy=ofsty*uup/100;
+							line.fillStyle = "greenyellow";
+							line.moveTo(crrobj[r].x,crrobj[r].y);
+							line.lineTo(crrobj[r].x+cx,crrobj[r].y+cy);
+							line.stroke();
+//							console.log("1秒")
+							if (uup==100) {
+								uup=99;
+								//执行一次过后 参数自增加1 重复调用
+								r++;
+								if (r==krr.length) {
+									clearInterval(timmer);
+								}else{
+									clearInterval(timmer);
+									drawline(r);
+								}
+							}
+						},offsetTime)
+					}
+					
+				line.stroke();
+				line.fillText("(" + $(".ymaker").val() + ")", 15, 25);
+				line.fillText("(" + $(".xmaker").val() + ")", 530, 390);
+				line.font = "22px '楷体'";
+				line.fillText($(".title").val(), 150, 70);
+
+			}
+
+		})
+	</script>
+
+</html>

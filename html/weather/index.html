@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="css/mai.css"/>
+		<link rel="stylesheet" type="text/css" href="css/main.css"/>
+
+	</head>
+	<body>
+		<div class="container">
+			<div class="writein">
+				<div>免费天气</div>
+				<input type="text" class="input_adress">
+				<button type="button" class="submit_btn">获取天气</button>
+			</div>
+			<div class="showarea">
+				<div class="today">
+					<p class="p1"></p>
+					<p class="p2"></p>
+					<p class="p3"></p>
+					<p class="p4"></p>
+				</div>
+				<div class="weathers">
+					<div class="wtoday">
+						<div class="wtpic">
+							<img />
+						</div>
+						<div class="wttemp">
+							<p class="wttt"></p>
+							<p class="wttw">
+								<span>℃</span>
+								<span class="wttwspan"></span>
+							</p>
+						</div>
+						<div class="wtwind">
+							<p class="wtwface"></p>
+							<p>风</p>
+							<p class="wtwlevel"></p>
+							<p>级</p>
+						</div>
+					</div>
+					<div class="wtafter">
+						<div class="wtaf1">
+							<p class="wtafd"></p>
+							<div class="wtpic">
+								<img />
+							</div>
+							<div class="wtafday">
+								<div class="wtafstas">
+									<p>日间</p>
+									<p class="wtaftemp"></p>
+									<p>℃</p>
+									<p class="wtafsta"></p>
+								</div>
+								<div class="wtafwind">
+									<p class="wtwface"></p>
+									<p class="wtwlevel"></p>
+									级
+								</div>
+							</div>
+							<div class="wtafnight">
+								<div class="wtafstas">
+									<p>夜间</p>
+									<p class="wtaftemp"></p>
+									<p>℃</p>
+									<p class="wtafsta"></p>
+								</div>
+								<div class="wtafwind">
+									<p class="wtwface"></p>
+									<p class="wtwlevel"></p>
+									级
+								</div>
+							</div>
+						</div>
+						<div class="wtaf2">
+							<p class="wtafd"></p>
+							<div class="wtpic">
+								<img />
+							</div>
+							<div class="wtafday">
+								<div class="wtafstas">
+									<p>日间</p>
+									<p class="wtaftemp"></p>
+									<p>℃</p>
+									<p class="wtafsta"></p>
+								</div>
+								<div class="wtafwind">
+									<p class="wtwface"></p>
+									<p class="wtwlevel"></p>
+									级
+								</div>
+							</div>
+							<div class="wtafnight">
+								<div class="wtafstas">
+									<p>夜间</p>
+									<p class="wtaftemp"></p>
+									<p>℃</p>
+									<p class="wtafsta"></p>
+								</div>
+								<div class="wtafwind">
+									<p class="wtwface"></p>
+									<p class="wtwlevel"></p>
+									级
+								</div>
+							</div>
+						</div>
+						<div class="wtaf3">
+							<p class="wtafd"></p>
+							<div class="wtpic">
+								<img />
+							</div>
+							<div class="wtafday">
+								<div class="wtafstas">
+									<p>日间</p>
+									<p class="wtaftemp"></p>
+									<p>℃</p>
+									<p class="wtafsta"></p>
+								</div>
+								<div class="wtafwind">
+									<p class="wtwface"></p>
+									<p class="wtwlevel"></p>
+									级
+								</div>
+							</div>
+							<div class="wtafnight">
+								<div class="wtafstas">
+									<p>夜间</p>
+									<p class="wtaftemp"></p>
+									<p>℃</p>
+									<p class="wtafsta"></p>
+								</div>
+								<div class="wtafwind">
+									<p class="wtwface"></p>
+									<p class="wtwlevel"></p>
+									级
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="canvas" id="canvas"></div>
+			</div>
+		</div>
+	</body>
+	<script src="js/jquery-1.11.0.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/echarts.min.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		$(function(){
+			
+			var s="";
+			$(".submit_btn").click(function(){
+				var adc;
+				var ads=$(".input_adress").val();
+				console.log(ads);
+				$.ajax({
+					type:"get",
+					data:{
+						key:"efe41821cdb9f4bd3a0450bb7e3fb10f",
+						output:"JSON",
+						address:ads,
+					},
+					url:"https://restapi.amap.com/v3/geocode/geo?",
+					async:false,
+//					dataType:"text",
+					success:function(suc){
+//						console.log(suc);
+//						console.log(suc.geocodes[0].adcode);
+        				adc=suc.geocodes[0].adcode;
+        				getweather(adc);
+					},
+					error:function(e){
+		        		console.log(e);
+					}
+				});
+			})
+			
+			
+			function getweather(w){
+				$.ajax({
+					type:"get",
+					data:{
+						key:"efe41821cdb9f4bd3a0450bb7e3fb10f",
+						city:w,
+						output:"JSON",
+						extensions:"all"
+					},
+					url:"https://restapi.amap.com/v3/weather/weatherInfo?",
+					async:false,
+					success:function(suc){
+						console.log(suc);
+						console.log(suc.forecasts[0].casts);
+						dender(suc.forecasts[0].casts);
+						daf=suc.forecasts[0].casts;
+//						console.log(daf[1].date.slice(5));
+						p1=daf[1].date.slice(5);
+						p2=daf[2].date.slice(5);
+						p3=daf[3].date.slice(5);
+//						console.log(p1);
+						
+						$(".wtaf1>.wtafd").text(p1);
+						$(".wtaf1>.wtafday>.wtafstas>.wtaftemp").text(daf[1].daytemp);
+						$(".wtaf1>.wtafday>.wtafstas>.wtafsta").text(daf[1].dayweather);
+						$(".wtaf1>.wtafday>.wtafwind>.wtwface").text(daf[1].daywind);
+						$(".wtaf1>.wtafday>.wtafwind>.wtwlevel").text(daf[1].daypower);
+						$(".wtaf1>.wtafnight>.wtafstas>.wtaftemp").text(daf[1].nighttemp);
+						$(".wtaf1>.wtafnight>.wtafstas>.wtafsta").text(daf[1].nightweather);
+						$(".wtaf1>.wtafnight>.wtafwind>.wtwface").text(daf[1].nightwind);
+						$(".wtaf1>.wtafnight>.wtafwind>.wtwlevel").text(daf[1].nightpower);
+						
+						$(".wtaf2>.wtafd").text(p2);
+						$(".wtaf2>.wtafday>.wtafstas>.wtaftemp").text(daf[2].daytemp);
+						$(".wtaf2>.wtafday>.wtafstas>.wtafsta").text(daf[2].dayweather);
+						$(".wtaf2>.wtafday>.wtafwind>.wtwface").text(daf[2].daywind);
+						$(".wtaf2>.wtafday>.wtafwind>.wtwlevel").text(daf[2].daypower);
+						$(".wtaf2>.wtafnight>.wtafstas>.wtaftemp").text(daf[2].nighttemp);
+						$(".wtaf2>.wtafnight>.wtafstas>.wtafsta").text(daf[2].nightweather);
+						$(".wtaf2>.wtafnight>.wtafwind>.wtwface").text(daf[2].nightwind);
+						$(".wtaf2>.wtafnight>.wtafwind>.wtwlevel").text(daf[2].nightpower);
+						
+						$(".wtaf3>.wtafd").text(p3);
+						$(".wtaf3>.wtafday>.wtafstas>.wtaftemp").text(daf[3].daytemp);
+						$(".wtaf3>.wtafday>.wtafstas>.wtafsta").text(daf[3].dayweather);
+						$(".wtaf3>.wtafday>.wtafwind>.wtwface").text(daf[3].daywind);
+						$(".wtaf3>.wtafday>.wtafwind>.wtwlevel").text(daf[3].daypower);
+						$(".wtaf3>.wtafnight>.wtafstas>.wtaftemp").text(daf[3].nighttemp);
+						$(".wtaf3>.wtafnight>.wtafstas>.wtafsta").text(daf[3].nightweather);
+						$(".wtaf3>.wtafnight>.wtafwind>.wtwface").text(daf[3].nightwind);
+						$(".wtaf3>.wtafnight>.wtafwind>.wtwlevel").text(daf[3].nightpower);
+						
+						weathericons(daf[1].dayweather);
+						$(".wtaf1>.wtpic>img").attr("src","img/"+s);
+						weathericons(daf[2].dayweather);
+						$(".wtaf2>.wtpic>img").attr("src","img/"+s);
+						weathericons(daf[3].dayweather);
+						$(".wtaf3>.wtpic>img").attr("src","img/"+s);
+						
+					},
+					error:function(e){
+		        		console.log(e);
+					}
+				});
+				$.ajax({
+					type:"get",
+					data:{
+						key:"efe41821cdb9f4bd3a0450bb7e3fb10f",
+						city:w,
+						output:"JSON",
+						extensions:"base"
+					},
+					url:"https://restapi.amap.com/v3/weather/weatherInfo?",
+					async:false,
+					success:function(su){
+						console.log(su);
+						$(".p1").text(su.lives[0].province);
+						$(".p2").text(su.lives[0].city);
+						$(".p3").text(su.lives[0].reporttime);
+						$(".wttt").text(su.lives[0].temperature);
+						$(".wttwspan").text(su.lives[0].weather);
+						$(".wtwface").text(su.lives[0].winddirection);
+						$(".wtwlevel").text(su.lives[0].windpower);
+						weathericons(su.lives[0].weather);
+						$(".wtoday>.wtpic>img").attr("src","img/"+s);
+					},
+					error:function(e){
+		        		console.log(e);
+					}
+				});
+			}
+			var drr=[];
+			var trr=[];
+			function dender(s){
+				for (var i = 0; i < s.length; i++) {
+					var cd=s[i].date;
+					var ct=s[i].daytemp,
+					y=cd.slice(5);
+					drr.push(y);
+					trr.push(ct);
+					console.log(drr);
+				}
+				doechart(drr,trr);
+			}
+			function doechart(d,t){
+				var myChart = echarts.init(document.getElementById('canvas'));
+				var option = {
+				    xAxis: {
+				        type: 'category',
+				        data: d
+				    },
+				    yAxis: {
+				        type: 'value'
+				    },
+				    series: [{
+				        data: t,
+				        type: 'line',
+				        smooth: true
+				    }]
+				};
+				myChart.setOption(option);
+				drr=[];
+				trr=[];
+			}
+			function weathericons(word){
+				switch (word){
+					case "晴":s="d00.gif";
+						break;
+					case "多云":s="d01.gif";
+						break;
+					case "阴":s="d02.gif";
+						break;
+					case "阵雨":s="d03.gif";
+						break;
+					case "雷阵雨":s="d04.gif";
+						break;
+					case "雷阵雨并伴有冰雹":s="d05.gif";
+						break;
+					case "雨夹雪":s="d06.gif";
+						break;
+					case "小雨":s="d07.gif";
+						break;
+					case "中雨":s="d08.gif";
+						break;
+					case "大雨":s="d09.gif";
+						break;
+					case "暴雨":s="d10.gif";
+						break;
+					case "大暴雨":s="d11.gif";
+						break;
+					case "特大暴雨":s="d12.gif";
+						break;
+					case "阵雪":s="d13.gif";
+						break;
+					case "小雪":s="d14.gif";
+						break;
+					case "中雪":s="d15.gif";
+						break;
+					case "大雪":s="d16.gif";
+						break;
+					case "暴雪":s="d17.gif";
+						break;
+					case "雾":s="d18.gif";
+						break;
+					case "冻雨":s="d19.gif";
+						break;
+					case "沙尘暴":s="d20.gif";
+						break;
+					case "小雨-中雨":s="d21.gif";
+						break;
+					case "中雨-大雨":s="d22.gif";
+						break;
+					case "大雨-暴雨":s="d23.gif";
+						break;
+					case "暴雨-大暴雨":s="d24.gif";
+						break;
+					case "大暴雨-特大暴雨":s="d25.gif";
+						break;
+					case "小雪-中雪":s="d26.gif";
+						break;
+					case "中雪-大雪":s="d27.gif";
+						break;
+					case "大雪-暴雪":s="d28.gif";
+						break;
+					case "浮尘":s="d29.gif";
+						break;
+					case "扬沙":s="d30.gif";
+						break;
+					case "强沙尘暴":s="d31.gif";
+						break;
+					case "霾":s="d53.gif";
+						break;
+					default:s="d00.gif";
+						break;
+				}
+			}
+			getweather(110102);
+		})
+		
+	</script>
+</html>

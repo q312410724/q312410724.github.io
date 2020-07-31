@@ -1,0 +1,21 @@
+*{
+	margin: 0;
+	padding: 0;
+}
+.container{
+	width: 100%;
+	height: auto;
+	border-top: 1px solid transparent;
+}
+.area1{
+	width: 800px;
+	height: auto;
+	background: aqua;
+	margin: 50px auto;
+}
+#barChart{
+	width: 80%;
+	height: 80%;
+	margin: 0 auto;
+	display: block;
+}

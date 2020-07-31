@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<input type="text" class="ipt" />
+		<button type="button" class="btn">召唤神龙</button>
+		<canvas id="myCvs" width="800" height="400" style="border:1px solid #333"></canvas>
+	</body>
+	<script src="js/jQuery.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript" src="js/jquery-1.11.0.js" ></script>
+	<script type="text/javascript">
+		//生成数据
+		var data = [];
+		$(".ipt").keyup(function(e){
+			var k = e.keyCode||e.which;
+			if(k == 13){
+				data.push($(this).val());
+				console.log(data);
+				$(this).val("").focus();
+			}
+		})
+		
+		$(".btn").click(function(){
+			animateCanvas();
+		})
+		
+		function animateCanvas(){
+			var a = document.getElementById("myCvs");
+			var c = a.getContext("2d");
+			c.fillStyle = "red";
+			var h = 0;
+			timer = setInterval(function(){
+				h++;
+				for (var i = 0; i < data.length; i++) {
+					let x = data[i]*h/100;
+					c.fillRect(80*(i+1),400-x,40,x);
+				}
+				if(h==100){
+					h=99;
+					clearInterval(timer);
+				}
+				console.log(h);
+			},30);
+		}		
+	</script>
+</html>

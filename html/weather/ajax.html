@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<style>
+			.pro{
+				width: 100%;
+				height: 100%;
+				background: rgba(0,0,0,0.5);
+				position: fixed;
+				top: 0;
+				left: 0;
+				color: white;
+				font-size: 30px;
+				display: none;
+			}
+		</style>
+	</head>
+	<body>
+		<span>查询地址：</span>
+		<input type="text" class="iptaddress" />
+		<button type="button" class="btns">获取免费天气</button>
+		<div class="show"></div>
+		<p>地址：<span class="address"></span></p>
+		<p>天气：<span class="weather"></span></p>
+		<p>实时气温：<span class="temperature"></span><span>摄氏度</span></p>
+		<p>风向：<span class="winddirection"></span></p>
+		<p>风力：<span class="windpower"></span></p>
+		<p>空气湿度：<span class="humidity"></span></p>
+		<div class="pro"></div>
+	</body>
+	<script type="text/javascript" src="js/jquery.js" ></script>
+	<script>
+		$(function(){
+			//点击获取
+			$(".iptaddress").keydown(function(){
+				var e=event.which||event.keyCode;
+				if (e==13||e==10) {
+					getEvery();
+				}
+			})
+			$(".btns").click(function(){
+				getEvery();
+			})
+			function getEvery(){
+				var ourl=$(".iptaddress").val();
+				ourl="http://restapi.amap.com/v3/geocode/geo?key=fdc3533f047d753a939093d2af54f2c8&address="+ourl;
+				getAdcode(ourl);
+			}
+			//获取地址adcode
+			function getAdcode(ourl){
+				var adcodeA=$.ajax({
+					url:ourl,
+					async:false,
+					success:function(){
+						alert("获取adcode成功");
+					},
+					error:function(){
+						alert("获取adcode失败");
+					}
+				});
+				var obj=JSON.parse(adcodeA.responseText);
+				console.log(obj.geocodes[0].adcode);
+				ourl="http://restapi.amap.com/v3/weather/weatherInfo?key=fdc3533f047d753a939093d2af54f2c8&output=JSON&city="+obj.geocodes[0].adcode;
+				//ourl="http://restapi.amap.com/v3/weather/weatherInfo?key=fdc3533f047d753a939093d2af54f2c8&city=120101&output=JSON";
+				getDate(ourl);
+			}
+			//获取的ajax
+			function getDate(ourl){
+				var htmlobj = $.ajax({
+					url:ourl,
+					async: false,
+					success:function(){
+						alert("成功获取数据");
+					},
+					error:function(){
+						alert("失败获取数据");
+					}
+				})
+				//展示获取的json数据
+				//$(".show").html(htmlobj.responseText);
+				//获取到的JSON数据
+				console.log(htmlobj.responseText)
+				//JSON转化为对象
+				var obj=JSON.parse(htmlobj.responseText);
+				//访问对象的参数
+				console.log(obj.lives[0].province);
+				//解析数据放入对应的标签
+				$(".address").text(obj.lives[0].province+obj.lives[0].city);
+				$(".weather").text(obj.lives[0].weather);
+				$(".temperature").text(obj.lives[0].temperature);
+				$(".winddirection").text(obj.lives[0].winddirection);
+				$(".windpower").text(obj.lives[0].windpower);
+				$(".humidity").text(obj.lives[0].humidity);
+				$(".reporttime").text(obj.lives[0].reporttime);
+			}
+			
+		})
+	</script>
+</html>
