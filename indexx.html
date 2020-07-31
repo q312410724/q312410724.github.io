@@ -1,0 +1,161 @@
+﻿<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<link rel="stylesheet" href="css/main.css" />
+	</head>
+
+	<body>
+		<div class="data">
+			<div class="year">
+				<p>请选择年</p>
+				<ul class="list"></ul>
+			</div>
+			<div class="month">
+				<p>请选择月</p>
+				<ul class="list"></ul>
+			</div>
+			<div class="day">
+				<p>请选择日</p>
+				<ul class="list"></ul>
+			</div>
+		</div>
+		<div class="star"></div>
+		
+		<a href="html/personalmessages/gerenzhanghaoguanli.html">个人账号管理</a>
+		<a href="html/note/index.html">日历记事本</a>
+	</body>
+	<script type="text/javascript" src="js/jquery-1.11.0.js"></script>
+	<script type="text/javascript">
+		$(function() {
+			//create year
+			for(var i = 1900; i < 2100; i++) {
+				var $li = $("<li></li>");
+				$li.text(i);
+				$(".year>ul").append($li);
+			}
+			//create month
+			for(var i = 1; i < 13; i++) {
+				var $li = $("<li></li>");
+				$li.text(i);
+				$(".month>ul").append($li);
+			}
+			//create day
+			/*var d = new Date(2020,2,0);
+			console.log(d);
+			console.log(d.getDate());
+			for (var i=1; i<d.getDate()+1; i++) {
+				var $li = $("<li></li>");
+				$li.text(i);
+				$(".day>ul").append($li);
+			}*/
+
+			$(".day>p").click(function() {
+				var y = $(".year>p").text();
+				var m = $(".month>p").text();
+				var d = new Date(y, m, 0);
+				$(".day>ul").empty();
+				for(var i = 1; i < d.getDate() + 1; i++) {
+					var $li = $("<li></li>");
+					$li.text(i);
+					$li.click(function() {
+						var txt = $(this).text();
+						$(this).parent().slideUp().prev().text(txt);
+						var idx = getStar();
+						$(".star>div").eq(idx).addClass("active").siblings().removeClass("active");
+					})
+					$(".day>ul").append($li);
+				}
+			})
+
+			$(".data>div>p").click(function() {
+				$(this).next().slideToggle().parent().siblings().find("ul").slideUp();
+			})
+			$(".list>li").click(function() {
+				var txt = $(this).text();
+				$(this).parent().slideUp().prev().text(txt);
+			})
+
+			//create star
+			for(var i = 0; i < 12; i++) {
+				var $div = $("<div></div>");
+				$div.css({
+					"background-position": -36 * i + "px 0"
+				})
+				$(".star").append($div);
+			}
+
+			/*$(".month>ul>li").click(function() {
+				var s = $(this).text();
+				$(".star>div").eq(s).addClass("active").siblings().removeClass("active");
+			})*/
+
+			function getStar() {
+				var m = $(".month>p").text();
+				var dy = $(".day>p").text();
+				if (dy < 10) {
+					dy = "0" + dy;
+				}
+				var brd = m + "." + dy;
+				switch(true) {
+					case brd >= 3.21 && brd <= 4.19:
+						console.log("白羊座");
+						return 0;
+					case brd >= 4.20 && brd <= 5.20:
+						console.log("金牛座");
+						return 1;
+					case brd >= 5.21 && brd <= 6.21:
+						console.log("双子座");
+						return 2;
+					case brd >= 6.22 && brd <= 7.22:
+						console.log("巨蟹座");
+						return 3;
+					case brd >= 7.23 && brd <= 8.22:
+						console.log("狮子座");
+						return 4;
+					case brd >= 8.23 && brd <= 9.22:
+						console.log("处女座");
+						return 5;
+					case brd >= 9.23 && brd <= 10.23:
+						console.log("天秤座");
+						return 6;
+					case brd >= 10.24 && brd <= 11.22:
+						console.log("天蝎座");
+						return 7;
+					case brd >= 11.23 && brd <= 12.21:
+						console.log("射手座");
+						return 8;
+					case brd >= 12.22 || brd <= 1.19:
+						console.log("摩羯座");
+						return 9;
+					case brd >= 1.20 && brd <= 2.18:
+						console.log("水瓶座");
+						return 10;
+					case brd >= 2.19 && brd <= 3.20:
+						console.log("双鱼座");
+						return 11;
+				}
+			}
+
+			
+			/*var aa = 4;
+			switch(aa) {
+				case 1:
+					console.log("变量值为1");
+					break;
+				case 2:
+					console.log("变量值为2")
+					break;
+				case 3:
+					console.log("变量值为3")
+					break;
+				default:
+					console.log("aa!=1/2/3")
+					break;
+			}*/
+		})
+	</script>
+
+</html>
