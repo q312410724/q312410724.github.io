@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 	<head>
 		<meta charset="utf-8" />
@@ -170,6 +170,7 @@
         				getweather(adc);
 					},
 					error:function(e){
+					alert('请检查网络');
 		        		console.log(e);
 					}
 				});
@@ -238,6 +239,7 @@
 					},
 					error:function(e){
 		        		console.log(e);
+						alert('请检查网络');
 					}
 				});
 				$.ajax({
@@ -263,6 +265,7 @@
 						$(".wtoday>.wtpic>img").attr("src","img/"+s);
 					},
 					error:function(e){
+					alert('请检查网络')
 		        		console.log(e);
 					}
 				});
